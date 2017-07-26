@@ -9,9 +9,9 @@ TEST_EXE = bin/tests.o
 TEST_ENTRY = test/tests.c
 CFLAGS = -std=c11 -Wall -Wextra -pedantic -Werror -Wshadow
 LDFLAGS = -lGL -lGLU -lglut -lm
-GAME_SOURCES := $(call rwildcard,game/,*.c)
+APP_SOURCES := $(call rwildcard,asset_builder/,*.c)
 VENDOR_SOURCES := $(call rwildcard,vendor/,*.c)
-GAME_OBJECTS := $(call objpath, $(GAME_SOURCES))
+APP_OBJECTS := $(call objpath, $(APP_SOURCES))
 VENDOR_OBJECTS := $(call objpath, $(VENDOR_SOURCES))
 
 # OS X, OSTYPE not being declared
@@ -36,7 +36,7 @@ app:
 	@echo "*****************************"
 	@echo "*** building game objects ***"
 	@echo "*****************************"
-	for source in $(GAME_SOURCES) ; do \
+	for source in $(APP_SOURCES) ; do \
 		src=$$source; \
 		srcfile=$$(basename "$$src"); \
 		srcfilename="$${srcfile%.*}"; \
@@ -58,12 +58,12 @@ app:
 	@echo "*******************************"
 	@echo "*** building app entrypoint ***"
 	@echo "*******************************"
-	gcc -o $(APP_EXE) $(VENDOR_OBJECTS) $(GAME_OBJECTS) $(APP_ENTRY) $(CFLAGS) $(LDFLAGS)
+	gcc -o $(APP_EXE) $(VENDOR_OBJECTS) $(APP_OBJECTS) $(APP_ENTRY) $(CFLAGS) $(LDFLAGS)
 
 	@echo "********************************"
 	@echo "*** building test entrypoint ***"
 	@echo "********************************"
-	gcc -o $(TEST_EXE) $(VENDOR_OBJECTS) $(GAME_OBJECTS) $(TEST_ENTRY) $(CFLAGS) $(LDFLAGS)
+	gcc -o $(TEST_EXE) $(VENDOR_OBJECTS) $(APP_OBJECTS) $(TEST_ENTRY) $(CFLAGS) $(LDFLAGS)
 
 	@echo "*********************"
 	@echo "*** running tests ***"

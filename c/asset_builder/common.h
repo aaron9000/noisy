@@ -12,8 +12,6 @@
 #include <float.h>
 
 #include "../vendor/stb.h"
-#include "../vendor/c-algorithms.h"
-#include "../vendor/linmath.h"
 #include "../vendor/sds/sds.h"
 #include "../vendor/tictoc/tictoc.h"
 #include "../vendor/libmtwist/mtwist.h"

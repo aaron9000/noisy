@@ -1,12 +1,5 @@
 #include "../vendor/minunit.h"
-#include "../game/game.h"
-#include "../game/asset_builder.h"
-
-
-// Game Testing
-MU_TEST(test_foo) {
-    mu_check(game_foo() == 2);
-}
+#include "../asset_builder/asset_builder.h"
 
 // Common Testing
 MU_TEST(test_common) {
@@ -66,17 +59,14 @@ MU_TEST(test_write_test_pngs) {
 }
 
 // Suites
-MU_TEST_SUITE(test_game) {
-    MU_RUN_TEST(test_foo);
-}
-
 MU_TEST_SUITE(test_asset_builder) {
     MU_RUN_TEST(test_common);
     MU_RUN_TEST(test_write_test_pngs);
 }
 
+
+// Entrypoint
 int main() {
-    MU_RUN_SUITE(test_game);
     MU_RUN_SUITE(test_asset_builder);
     MU_REPORT();
     return 0;
