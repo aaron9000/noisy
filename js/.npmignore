@@ -1,0 +1,8 @@
+node_modules
+test
+assets
+.gitignore
+README.md
+lib
+package.sh
+webpack.*

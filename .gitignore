@@ -1,0 +1,12 @@
+.DS_Store
+c/cmake-build-debug/
+c/obj/*.o
+c/bin/*.o
+c/output/*.png
+*.idea
+node_modules
+npm-debug.log
+*.css.map
+*.js.map
+js/dist
+js/es5
