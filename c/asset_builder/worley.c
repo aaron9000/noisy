@@ -54,23 +54,23 @@ static inline float get_edge_distance(float local_pos, int offset){
 
 float worley(float x, float y, float z, int cells_per_dimension, int min_points_per_cell, int max_points_per_cell, const worley_func worley_function){
 
-    int index, num_points, offset_bucket_x, offset_bucket_y, offset_bucket_z, stride;
+    int index, num_points, offset_cell_x, offset_cell_y, offset_cell_z, stride;
 	float dx, dy, dz, px, py, pz, distance_squared;
     float last_f0 = FLT_MAX;
     float f0 = FLT_MAX;
     float f1 = FLT_MAX;
-    int bucket_x_int = wrap_int((int)x, cells_per_dimension);
-    int bucket_y_int = wrap_int((int)y, cells_per_dimension);
-    int bucket_z_int = wrap_int((int)z, cells_per_dimension);
-	float bucket_x_float = wrap_float(x, (float)cells_per_dimension);
-	float bucket_y_float = wrap_float(y, (float)cells_per_dimension);
-    float bucket_z_float = wrap_float(z, (float)cells_per_dimension);
-    float wx = wrap_float(bucket_x_float, 1.0f);
-    float wy = wrap_float(bucket_y_float, 1.0f);
-    float wz = wrap_float(bucket_z_float, 1.0f);
+    int cell_x_int = wrap_int((int)x, cells_per_dimension);
+    int cell_y_int = wrap_int((int)y, cells_per_dimension);
+    int cell_z_int = wrap_int((int)z, cells_per_dimension);
+	float cell_x_float = wrap_float(x, (float)cells_per_dimension);
+	float cell_y_float = wrap_float(y, (float)cells_per_dimension);
+    float cell_z_float = wrap_float(z, (float)cells_per_dimension);
+    float wx = wrap_float(cell_x_float, 1.0f);
+    float wy = wrap_float(cell_y_float, 1.0f);
+    float wz = wrap_float(cell_z_float, 1.0f);
     int cells_squared = cells_per_dimension * cells_per_dimension;
 
-    // Calculate distance to edges (bucket rejection optimization)
+    // Calculate distance to edges (cell rejection optimization)
     float cell_edge_distances_squared[27] = {0};
     float edge_distance, ex, ey, ez;
     for (int e = 0; e < 27; e++){
@@ -85,12 +85,12 @@ float worley(float x, float y, float z, int cells_per_dimension, int min_points_
 
         if (f1 <= cell_edge_distances_squared[i]) continue;
 
-		offset_bucket_x = wrap_int(bucket_x_int + offset_x[i], cells_per_dimension);
-		offset_bucket_y = wrap_int(bucket_y_int + offset_y[i], cells_per_dimension);
-        offset_bucket_z = wrap_int(bucket_z_int + offset_z[i], cells_per_dimension);
-        index = offset_bucket_x +
-                (offset_bucket_y * cells_per_dimension) +
-                (offset_bucket_z * cells_squared);
+		offset_cell_x = wrap_int(cell_x_int + offset_x[i], cells_per_dimension);
+		offset_cell_y = wrap_int(cell_y_int + offset_y[i], cells_per_dimension);
+        offset_cell_z = wrap_int(cell_z_int + offset_z[i], cells_per_dimension);
+        index = offset_cell_x +
+                (offset_cell_y * cells_per_dimension) +
+                (offset_cell_z * cells_squared);
         index = (seed + (index * 4)) % RAND_LOOKUP_COUNT;
 		num_points = random_in_range(min_points_per_cell, max_points_per_cell, rand_lookup[index]);
 
