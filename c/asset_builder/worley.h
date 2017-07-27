@@ -13,4 +13,4 @@ void worley_randomize_seed();
 
 void worley_change_seed(int new_seed);
 
-//void generate_random_numbers();
+void generate_random_numbers();

@@ -3,7 +3,7 @@
 
 int main(int argc, char **argv) {
     char* arg = "";
-    char* noise_type = "perlin_fmb";
+    char* noise_type = "perlin_fbm";
     char* detail_level = "medium";
     int image_size = 256;
     int dimensions = 2;

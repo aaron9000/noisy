@@ -3,7 +3,7 @@
 
 static int seed = 123;
 static int offset_x[27] = {
-    0, -1, 0, 0, 0, 0, 1, -1, -1, -1, -1, 0, 0, 0, 0, 1, 1, 1, 1, -1, -1, -1, -1, 1, 1, 1, 1,
+    0, -1, 0, 0, 0, 0, 1, -1, -1, -1, -1, 0, 0, 0, 0, 1, 1, 1, 1, -1, -1, -1, -1, 1, 1, 1, 1
 };
 static int offset_y[27] = {
     0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 1, -1, -1, 1, 1, -1, 0, 0, 1, -1, -1, 1, 1, -1, -1, 1, 1
@@ -12,7 +12,7 @@ static int offset_z[27] = {
     0, 0, 0, -1, 1, 0, 0, 0, -1, 1, 0, -1, 1, -1, 1, 0, -1, 1, 0, -1, 1, -1, 1, -1, 1, -1, 1
 };
 static float offset_x_float[27] = {
-    0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f
 };
 static float offset_y_float[27] = {
     0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f
@@ -134,16 +134,17 @@ void worley_change_seed(int new_seed){
     seed = abs(new_seed % RAND_LOOKUP_COUNT);
 }
 
-// void generate_random_numbers(){
-// 	printf("\n");
-//     printf("float rand_lookup[%i] = {\n", (int)RAND_LOOKUP_COUNT);
-// 	for (int i = 0; i < RAND_LOOKUP_COUNT; i++){
-// 		printf("%ff,\n", rand_float());
-// 	}
-//     printf("};\n");
-// }
+void generate_random_numbers(){
+	printf("\n");
+    printf("float rand_lookup[%i] = {\n", (int)RAND_LOOKUP_COUNT);
+	for (int i = 0; i < RAND_LOOKUP_COUNT; i++){
+		printf("%ff,\n", rand_float());
+	}
+    printf("};\n");
+}
 
-// function foo(){
+// Javascript Helper
+// function generateNeighbors(){
 // 	var offsets = [-1, 0, 1];
 // 	var tuples = {};
 // 	for (var i = 0; i < 3; i++){
@@ -178,4 +179,4 @@ void worley_change_seed(int new_seed){
 // 	console.log(ys);
 // 	console.log(zs);
 // }
-// foo();
+// generateNeighbors();

@@ -55,7 +55,7 @@ MU_TEST(test_common) {
 
 // Asset Builder
 MU_TEST(test_write_test_pngs) {
-   // mu_check(write_test_pngs());
+   mu_check(write_test_pngs());
 }
 
 // Suites

@@ -18,7 +18,7 @@ static const int IMAGE_SIZES = 7;
 typedef enum {
     NoiseType_perlin = 0,
     NoiseType_perlin_ridge = 1,
-    NoiseType_perlin_fmb = 2,
+    NoiseType_perlin_fbm = 2,
     NoiseType_perlin_turbulence = 3,
     NoiseType_worley_pillows = 4,
     NoiseType_worley_gems = 5,
@@ -108,8 +108,8 @@ char* get_name_for_detail_level(DetailLevel level){
 
 char* get_name_for_noise_type(NoiseType type){
     switch (type) {
-        case NoiseType_perlin_fmb:
-            return "perlin_fmb";
+        case NoiseType_perlin_fbm:
+            return "perlin_fbm";
         case NoiseType_perlin_ridge:
             return "perlin_ridge";
         case NoiseType_perlin:
@@ -156,7 +156,7 @@ DetailLevel get_detail_level_from_string(const char* detail_level){
 bool is_noise_type_perlin(NoiseType type){
     switch(type){
         case NoiseType_perlin:
-        case NoiseType_perlin_fmb:
+        case NoiseType_perlin_fbm:
         case NoiseType_perlin_ridge:
         case NoiseType_perlin_turbulence:
             return true;
@@ -272,7 +272,7 @@ float noise_value_func(float x, float y, float z, const WriteConfig *config, con
     float rel_y = (y / (float) config->size) * (float) d;
     float rel_z = (z / (float) config->size) * (float) d;
     switch (noise_config.type) {
-        case NoiseType_perlin_fmb:
+        case NoiseType_perlin_fbm:
             return stb_perlin_fbm_noise3(rel_x, rel_y, rel_z, noise_config.lacunarity, noise_config.gain, noise_config.octaves, d, d, d);
         case NoiseType_perlin:
             return stb_perlin_noise3(rel_x, rel_y, rel_z, d, d, d);
