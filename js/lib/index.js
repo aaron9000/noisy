@@ -2,7 +2,7 @@ import {handleConfig} from './app';
 import {parse} from './config';
 
 handleConfig(parse(process.argv))
-    .then(v => {
+    .then(() => {
         process.exit();
     })
     .catch(err => {

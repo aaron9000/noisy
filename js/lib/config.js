@@ -1,11 +1,11 @@
 import R from 'ramda';
 import t from 'tcomb-validation';
 import clear from 'clear-require';
-
 const packageDotJson = require('../package.json');
 
 const SUPPORTED_IMAGE_SIZES = [32, 64, 128, 256, 512 , 1024, 2048];
 const MAX_IMAGE_SIZE_FOR_3D = 128;
+const WILDCARD_REGEX = /.*/;
 
 export const NoiseType = {
     PERLIN_FBM: "perlin_fbm",
@@ -16,12 +16,8 @@ export const NoiseType = {
     WORLEY_PILLOWS: "worley_pillows",
     WORLEY_RIDGED_PILLOWS: "worley_ridged_pillows",
     WORLEY_CAUSTICS: "worley_caustics"
-    // PERLIN_LAYER: "perlin_layer",
-    // WORLEY_LEAVES: "worley_leaves",
-    // WORLEY_BUBBLES: "worley_bubbles",
 };
 const NoiseTypeType = t.enums(R.invertObj(NoiseType));
-const NOISE_TYPE_REGEX = /.*/;
 
 export const DetailLevel = {
     LOW: 'low',
@@ -30,14 +26,10 @@ export const DetailLevel = {
     VERY_HIGH: 'veryhigh'
 };
 const DetailLevelType = t.enums(R.invertObj(DetailLevel));
-const DETAIL_LEVEL_REGEX = /.*/;
 
-
-const DimensionsType = t.refinement(t.Number, (n) => n == 2 || n == 3, 'DimensionsType');
-const ImageSizeType = t.refinement(t.Number, (n) => {
-    return R.contains(n, SUPPORTED_IMAGE_SIZES);
-}, 'ImageSizeType');
-const PointsType = t.refinement(t.Number, (n) => n >= 1 && n <= 10, 'PointsType');
+const DimensionsType = t.refinement(t.Number, (n) => n == 2 || n == 3, 'expected 2 or 3');
+const ImageSizeType = t.refinement(t.Number, (n) => R.contains(n, SUPPORTED_IMAGE_SIZES), 'expected power of 2');
+const PointsType = t.refinement(t.Number, (n) => n >= 1 && n <= 10, 'expected 1 - 10');
 
 const Config = t.struct({
     noise_type: NoiseTypeType,
@@ -55,7 +47,6 @@ export const DefaultConfig = {
     image_size: 256,
     min_points_per_cell: 1,
     max_points_per_cell: 4
-
 };
 
 function stringEnumeration(enumObject:Object):String {
@@ -95,21 +86,16 @@ export function parse(args:Array<String>):Object{
     clear('commander');
     const program = require('commander')
         .version(packageDotJson.version.toString())
-        .option('-t, --noise_type   <noise_type>', `${stringEnumeration(NoiseType)}`, NOISE_TYPE_REGEX, DefaultConfig.noise_type)
-        .option('-l, --detail_level [detail_level]', `${stringEnumeration(DetailLevel)}`, DETAIL_LEVEL_REGEX, DefaultConfig.detail_level)
+        .option('-t, --noise_type   <noise_type>', `${stringEnumeration(NoiseType)}`, WILDCARD_REGEX, DefaultConfig.noise_type)
+        .option('-l, --detail_level [detail_level]', `${stringEnumeration(DetailLevel)}`, WILDCARD_REGEX, DefaultConfig.detail_level)
         .option('-d, --dimensions   [n]', '2 - 3      *3D not supported for images > 128)', parseInt)
         .option('-i, --image_size   [n]', `32 - 2048  *powers of two only`, parseInt)
         .option('-n, --min_points   [n]', '0 - 10     *worley only', parseInt)
         .option('-x, --max_points   [n]', '1 - 10     *worley only', parseInt)
         .parse(args);
-    console.log(program);
     const keys = R.keys(Config.meta.props);
     return R.pipe(
         R.pickAll(keys),
-        v => {
-            console.log(v);
-            return v;
-        },
         R.reduce((accum, value) => {
             return R.isNil(accum[value]) ? R.assoc(value, DefaultConfig[value], accum) : accum;
         }, R.__, keys),
