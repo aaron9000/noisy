@@ -20,7 +20,8 @@ describe("config", () => {
             image_size: 32,
             dimensions: 3,
             min_points_per_cell: 2,
-            max_points_per_cell: 3
+            max_points_per_cell: 3,
+            command: 'app.o perlin_fbm low 32 3 2 3'
         });
     });
 
@@ -40,7 +41,8 @@ describe("config", () => {
             image_size: 64,
             dimensions: 3,
             min_points_per_cell: 2,
-            max_points_per_cell: 6
+            max_points_per_cell: 6,
+            command: 'app.o perlin_fbm low 64 3 2 6'
         });
     });
 
@@ -56,7 +58,8 @@ describe("config", () => {
             image_size: DefaultConfig.image_size,
             dimensions: DefaultConfig.dimensions,
             min_points_per_cell: DefaultConfig.min_points_per_cell,
-            max_points_per_cell: DefaultConfig.max_points_per_cell
+            max_points_per_cell: DefaultConfig.max_points_per_cell,
+            command: 'app.o perlin_fbm low 256 2 1 4'
         });
     });
 

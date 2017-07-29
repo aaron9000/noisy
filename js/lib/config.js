@@ -3,10 +3,12 @@ import t from 'tcomb-validation';
 import clear from 'clear-require';
 const packageDotJson = require('../package.json');
 
-const SUPPORTED_IMAGE_SIZES = [32, 64, 128, 256, 512 , 1024, 2048];
-const MAX_IMAGE_SIZE_FOR_3D = 128;
+const MIN_SUPPORTED_IMAGE_SIZE = 32;
+const MAX_SUPPORTED_IMAGE_SIZE = 2048;
 const MIN_POINTS_PER_CELL = 0;
 const MAX_POINTS_PER_CELL = 8;
+const MAX_IMAGE_SIZE_FOR_3D = 128;
+const SUPPORTED_IMAGE_SIZES = [32, 64, 128, 256, 512, 1024, 2048];
 
 const WILDCARD_REGEX = /.*/;
 
@@ -17,7 +19,6 @@ export const NoiseType = {
     WORLEY_DOTS: "worley_dots",
     WORLEY_GEMS: "worley_gems",
     WORLEY_PILLOWS: "worley_pillows",
-    WORLEY_RIDGED_PILLOWS: "worley_ridged_pillows",
     WORLEY_CAUSTICS: "worley_caustics"
 };
 const NoiseTypeType = t.enums(R.invertObj(NoiseType));
@@ -37,7 +38,7 @@ const DimensionsType = t.refinement(
 const ImageSizeType = t.refinement(
     t.Number,
     (n) => R.contains(n, SUPPORTED_IMAGE_SIZES),
-    `expected power of two ${R.head(SUPPORTED_IMAGE_SIZES)} - ${R.last(SUPPORTED_IMAGE_SIZES)}`
+    `expected power of two ${MIN_SUPPORTED_IMAGE_SIZE} - ${MAX_SUPPORTED_IMAGE_SIZE}`
 );
 const PointsType = t.refinement(
     t.Number,
@@ -109,7 +110,7 @@ export function parse(args:Array<String>):Object{
             .option('-t, --noise_type   <noise_type>', `${stringEnumeration(NoiseType)}`, WILDCARD_REGEX, DefaultConfig.noise_type)
             .option('-l, --detail_level [detail_level]', `${stringEnumeration(DetailLevel)}`, WILDCARD_REGEX, DefaultConfig.detail_level)
             .option('-d, --dimensions   [n]', `2 - 3      *3D not supported for images > ${MAX_IMAGE_SIZE_FOR_3D})`, parseIntOrIdentity)
-            .option('-i, --image_size   [n]', `${R.head(SUPPORTED_IMAGE_SIZES)} - ${R.last(SUPPORTED_IMAGE_SIZES)}  *powers of two only`, parseIntOrIdentity)
+            .option('-i, --image_size   [n]', `${MIN_SUPPORTED_IMAGE_SIZE} - ${MAX_SUPPORTED_IMAGE_SIZE}  *powers of two only`, parseIntOrIdentity)
             .option('-n, --min_points_per_cell   [n]', `${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}     *worley only`, parseIntOrIdentity)
             .option('-x, --max_points_per_cell   [n]', `${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}     *worley only`, parseIntOrIdentity)
             .parse(args);
@@ -119,7 +120,13 @@ export function parse(args:Array<String>):Object{
             R.reduce((accum, value) => {
                 return R.isNil(accum[value]) ? R.assoc(value, DefaultConfig[value], accum) : accum;
             }, R.__, keys),
-            c => configIsValid(c) ? c : null
+            c => configIsValid(c) ? c : null,
+            c => {
+                if (!c) return c;
+                const {noise_type, detail_level, image_size, dimensions, min_points_per_cell, max_points_per_cell} = c;
+                c.command = `app.o ${noise_type} ${detail_level} ${image_size} ${dimensions} ${min_points_per_cell} ${max_points_per_cell}`;
+                return c;
+            } // parse into command or null
         )(program);
     } catch (exc) {
         return null;
