@@ -1,5 +1,12 @@
 #include "asset_builder.h"
 
+// Constants
+#define MIN_POINTS_PER_CELL 0
+#define MAX_POINTS_PER_CELL 8
+#define MAX_SUPPORTED_IMAGE_SIZE 2048
+#define MIN_SUPPORTED_IMAGE_SIZE 32
+#define MAX_IMAGE_SIZE_FOR_3D 128
+
 // Types
 typedef enum {
     DetailLevel_low = 0,
@@ -9,11 +16,6 @@ typedef enum {
     DetailLevel_unknown = -1
 } DetailLevel;
 static const int DETAIL_LEVELS = 4;
-
-static const int supported_image_sizes[7] = {
-    32, 64, 128, 256, 512, 1024, 2048
-};
-static const int IMAGE_SIZES = 7;
 
 typedef enum {
     NoiseType_perlin = 0,
@@ -305,28 +307,28 @@ bool easy_noise(const char* noise_type, const char* detail_level, int min_points
     // Validation
     NoiseType n = get_noise_type_from_string(noise_type);
     if (n == NoiseType_unknown){
-        printf("easy_noise: invalid noise_type: %s", noise_type);
+        printf("\neasy_noise: invalid noise_type: %s\n", noise_type);
         return false;
     }
-    int d = get_detail_level_from_string(detail_level);
-    if (d == DetailLevel_unknown){
-        printf("easy_noise: invalid detail_level: %s", detail_level);
+    int detail_value = get_detail_level_from_string(detail_level);
+    if (detail_value == DetailLevel_unknown){
+        printf("\neasy_noise: invalid detail_level: %s\n", detail_level);
         return false;
     }
-    d = pow(2, d + 1);
+    detail_value = pow(2, detail_value + 1);
     bool is_perlin = is_noise_type_perlin(n);
-    d = is_perlin ? d * 2 : d;
+    detail_value = is_perlin ? detail_value * 2 : detail_value;
 
-    if (image_size < supported_image_sizes[0] || image_size > supported_image_sizes[IMAGE_SIZES - 1] || !is_power_of_two(image_size)){
-        printf("easy_noise: invalid image_size: %i", image_size);
+    if (image_size < MIN_SUPPORTED_IMAGE_SIZE || image_size > MAX_SUPPORTED_IMAGE_SIZE || !is_power_of_two(image_size)){
+        printf("\neasy_noise: invalid image_size: %i\n", image_size);
         return false;
     }
     if (dimensions < 2 || dimensions > 3){
-        printf("easy_noise: invalid dimensions: %i", dimensions);
+        printf("\neasy_noise: invalid dimensions: %i\n", dimensions);
         return false;
     }
-    if (dimensions == 3 && d > 128){
-        printf("easy_noise: only can use 3 dimensions with image_size <= 128: %i", dimensions);
+    if (dimensions == 3 && image_size > MAX_IMAGE_SIZE_FOR_3D){
+        printf("\neasy_noise: only can use 3 dimensions with image_size <= 128\n");
         return false;
     }
 
@@ -336,10 +338,10 @@ bool easy_noise(const char* noise_type, const char* detail_level, int min_points
 
     NoiseConfig noise_config = DEFAULT_NOISE_CONFIG;
     noise_config.type = n;
-    noise_config.cells_per_dimension = d;
-    noise_config.min_points_per_cell = MAX(0, min_points_per_cell);
-    noise_config.max_points_per_cell = clamp_int(max_points_per_cell, min_points_per_cell, 8);
-    noise_config.sample_scale = d;
+    noise_config.cells_per_dimension = detail_value;
+    noise_config.min_points_per_cell = clamp_int(min_points_per_cell, MIN_POINTS_PER_CELL, MAX_POINTS_PER_CELL);
+    noise_config.max_points_per_cell = clamp_int(max_points_per_cell, noise_config.min_points_per_cell, MAX_POINTS_PER_CELL);
+    noise_config.sample_scale = detail_value;
 
     int z_slices = dimensions == 2 ? 1 : image_size;
     for (int i = 0; i < z_slices; i++){
@@ -356,14 +358,20 @@ bool easy_noise(const char* noise_type, const char* detail_level, int min_points
 
 // Test method
 bool write_test_pngs() {
+
+    // Test all variations of 2D noise @ 128
     for (int i = 0; i < NOISE_TYPES; i++){
         for (int j = 0; j < DETAIL_LEVELS; j++){
             assert(easy_noise(get_name_for_noise_type(i), get_name_for_detail_level(j), 1, 4, 128, 2));
         }
     }
 
+    // Test some 3D noise @ 32
+    assert(easy_noise("perlin_layer", "low", 1, 4, 32, 3));
+
+    // Test a fairly expensive noise variation and profile
     start_timer();
-    easy_noise("worley_pillows", "low", 1, 4, 2048, 2);
+    assert(easy_noise("worley_pillows", "low", 1, 4, 1024, 2));
     stop_timer();
 
     return true;

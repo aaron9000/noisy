@@ -54,20 +54,26 @@ MU_TEST(test_common) {
 
 
 // Asset Builder
-MU_TEST(test_write_test_pngs) {
-   mu_check(write_test_pngs());
+MU_TEST(test_asset_builder) {
+    mu_check(write_test_pngs());
+    mu_check(!easy_noise("foo", "low", 1, 4, 32, 2));
+    mu_check(!easy_noise("perlin_fbm", "foo", 1, 4, 32, 2));
+    mu_check(!easy_noise("perlin_fbm", "low", 1, 4, 32, 4));
+    mu_check(!easy_noise("perlin_fbm", "low", 1, 4, 256, 3));
+    mu_check(!easy_noise("perlin_fbm", "low", 1, 4, 4096, 2));
+    mu_check(!easy_noise("perlin_fbm", "low", 1, 4, 123, 2));
 }
 
 // Suites
-MU_TEST_SUITE(test_asset_builder) {
+MU_TEST_SUITE(test_app) {
     MU_RUN_TEST(test_common);
-    MU_RUN_TEST(test_write_test_pngs);
+    MU_RUN_TEST(test_asset_builder);
 }
 
 
 // Entrypoint
 int main() {
-    MU_RUN_SUITE(test_asset_builder);
+    MU_RUN_SUITE(test_app);
     MU_REPORT();
     return 0;
 }

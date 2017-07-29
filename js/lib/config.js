@@ -5,6 +5,9 @@ const packageDotJson = require('../package.json');
 
 const SUPPORTED_IMAGE_SIZES = [32, 64, 128, 256, 512 , 1024, 2048];
 const MAX_IMAGE_SIZE_FOR_3D = 128;
+const MIN_POINTS_PER_CELL = 0;
+const MAX_POINTS_PER_CELL = 8;
+
 const WILDCARD_REGEX = /.*/;
 
 export const NoiseType = {
@@ -26,10 +29,21 @@ export const DetailLevel = {
     VERY_HIGH: 'veryhigh'
 };
 const DetailLevelType = t.enums(R.invertObj(DetailLevel));
-
-const DimensionsType = t.refinement(t.Number, (n) => n == 2 || n == 3, 'expected 2 or 3');
-const ImageSizeType = t.refinement(t.Number, (n) => R.contains(n, SUPPORTED_IMAGE_SIZES), 'expected power of 2');
-const PointsType = t.refinement(t.Number, (n) => n >= 1 && n <= 10, 'expected 1 - 10');
+const DimensionsType = t.refinement(
+    t.Number,
+    (n) => n == 2 || n == 3,
+    'expected 2 or 3'
+);
+const ImageSizeType = t.refinement(
+    t.Number,
+    (n) => R.contains(n, SUPPORTED_IMAGE_SIZES),
+    `expected power of 2 between ${R.head(SUPPORTED_IMAGE_SIZES)} and ${R.last(SUPPORTED_IMAGE_SIZES)}`
+);
+const PointsType = t.refinement(
+    t.Number,
+    (n) => n >= 1 && n <= 8,
+    `expected ${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}`
+);
 
 const Config = t.struct({
     noise_type: NoiseTypeType,
