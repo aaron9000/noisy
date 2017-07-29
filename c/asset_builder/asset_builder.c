@@ -302,7 +302,7 @@ float noise_value_func(float x, float y, float z, const WriteConfig *config, con
 };
 
 // Public interfaces
-bool easy_noise(const char* noise_type, const char* detail_level, int min_points_per_cell, int max_points_per_cell, int image_size, int dimensions){
+bool easy_noise(const char* noise_type, const char* detail_level, int image_size, int dimensions, int min_points_per_cell, int max_points_per_cell){
 
     // Validation
     NoiseType n = get_noise_type_from_string(noise_type);
@@ -362,16 +362,16 @@ bool write_test_pngs() {
     // Test all variations of 2D noise @ 128
     for (int i = 0; i < NOISE_TYPES; i++){
         for (int j = 0; j < DETAIL_LEVELS; j++){
-            assert(easy_noise(get_name_for_noise_type(i), get_name_for_detail_level(j), 1, 4, 128, 2));
+            assert(easy_noise(get_name_for_noise_type(i), get_name_for_detail_level(j), 128, 2, 1, 4));
         }
     }
 
     // Test some 3D noise @ 32
-    assert(easy_noise("perlin_layer", "low", 1, 4, 32, 3));
+    assert(easy_noise("perlin_layer", "low", 32, 3, 1, 4));
 
     // Test a fairly expensive noise variation and profile
     start_timer();
-    assert(easy_noise("worley_pillows", "low", 1, 4, 1024, 2));
+    assert(easy_noise("worley_pillows", "low", 1024, 2, 1, 4));
     stop_timer();
 
     return true;

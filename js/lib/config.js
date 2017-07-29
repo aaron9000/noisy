@@ -37,12 +37,12 @@ const DimensionsType = t.refinement(
 const ImageSizeType = t.refinement(
     t.Number,
     (n) => R.contains(n, SUPPORTED_IMAGE_SIZES),
-    `expected power of 2 between ${R.head(SUPPORTED_IMAGE_SIZES)} and ${R.last(SUPPORTED_IMAGE_SIZES)}`
+    `expected power of two ${R.head(SUPPORTED_IMAGE_SIZES)} - ${R.last(SUPPORTED_IMAGE_SIZES)}`
 );
 const PointsType = t.refinement(
     t.Number,
     (n) => n >= 1 && n <= 8,
-    `expected ${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}`
+    `expected integer ${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}`
 );
 
 const Config = t.struct({
@@ -96,24 +96,33 @@ export function configIsValid(config:Object):Boolean {
     return true;
 }
 
+function parseIntOrIdentity(s:String){
+    const p = parseInt(s);
+    return isNaN(p) ? s : p;
+}
+
 export function parse(args:Array<String>):Object{
-    clear('commander');
-    const program = require('commander')
-        .version(packageDotJson.version.toString())
-        .option('-t, --noise_type   <noise_type>', `${stringEnumeration(NoiseType)}`, WILDCARD_REGEX, DefaultConfig.noise_type)
-        .option('-l, --detail_level [detail_level]', `${stringEnumeration(DetailLevel)}`, WILDCARD_REGEX, DefaultConfig.detail_level)
-        .option('-d, --dimensions   [n]', '2 - 3      *3D not supported for images > 128)', parseInt)
-        .option('-i, --image_size   [n]', `32 - 2048  *powers of two only`, parseInt)
-        .option('-n, --min_points   [n]', '0 - 10     *worley only', parseInt)
-        .option('-x, --max_points   [n]', '1 - 10     *worley only', parseInt)
-        .parse(args);
-    const keys = R.keys(Config.meta.props);
-    return R.pipe(
-        R.pickAll(keys),
-        R.reduce((accum, value) => {
-            return R.isNil(accum[value]) ? R.assoc(value, DefaultConfig[value], accum) : accum;
-        }, R.__, keys),
-        c => configIsValid(c) ? c : null
-    )(program);
+    try {
+        clear('commander');
+        const program = require('commander')
+            .version(packageDotJson.version.toString())
+            .option('-t, --noise_type   <noise_type>', `${stringEnumeration(NoiseType)}`, WILDCARD_REGEX, DefaultConfig.noise_type)
+            .option('-l, --detail_level [detail_level]', `${stringEnumeration(DetailLevel)}`, WILDCARD_REGEX, DefaultConfig.detail_level)
+            .option('-d, --dimensions   [n]', `2 - 3      *3D not supported for images > ${MAX_IMAGE_SIZE_FOR_3D})`, parseIntOrIdentity)
+            .option('-i, --image_size   [n]', `${R.head(SUPPORTED_IMAGE_SIZES)} - ${R.last(SUPPORTED_IMAGE_SIZES)}  *powers of two only`, parseIntOrIdentity)
+            .option('-n, --min_points_per_cell   [n]', `${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}     *worley only`, parseIntOrIdentity)
+            .option('-x, --max_points_per_cell   [n]', `${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}     *worley only`, parseIntOrIdentity)
+            .parse(args);
+        const keys = R.keys(Config.meta.props);
+        return R.pipe(
+            R.pickAll(keys),
+            R.reduce((accum, value) => {
+                return R.isNil(accum[value]) ? R.assoc(value, DefaultConfig[value], accum) : accum;
+            }, R.__, keys),
+            c => configIsValid(c) ? c : null
+        )(program);
+    } catch (exc) {
+        return null;
+    }
 }
 
