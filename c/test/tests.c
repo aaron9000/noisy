@@ -1,7 +1,6 @@
 #include "../vendor/minunit.h"
 #include "../asset_builder/asset_builder.h"
 
-// Common Testing
 MU_TEST(test_common) {
 
     // MIN / MAX
@@ -53,9 +52,12 @@ MU_TEST(test_common) {
 }
 
 
-// Asset Builder
 MU_TEST(test_asset_builder) {
+
+    // build a variety of different noise (review by eye)
     mu_check(write_test_pngs());
+
+    // invalid inputs
     mu_check(!easy_noise("foo", "low", 1, 4, 32, 2));
     mu_check(!easy_noise("perlin_fbm", "foo", 1, 4, 32, 2));
     mu_check(!easy_noise("perlin_fbm", "low", 1, 4, 32, 4));
@@ -64,16 +66,10 @@ MU_TEST(test_asset_builder) {
     mu_check(!easy_noise("perlin_fbm", "low", 1, 4, 123, 2));
 }
 
-// Suites
-MU_TEST_SUITE(test_app) {
+
+int main() {
     MU_RUN_TEST(test_common);
     MU_RUN_TEST(test_asset_builder);
-}
-
-
-// Entrypoint
-int main() {
-    MU_RUN_SUITE(test_app);
     MU_REPORT();
     return 0;
 }
