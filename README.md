@@ -1,6 +1,6 @@
 # noisy
 
-Generate Perlin and Worley noise from from the command line. Fractal noise is great for rendering smoke, fluids, and terrain. 
+Generate fractal noise from from the command line. Great for rendering smoke, fluids, and terrain. Simply install `noisy` with NPM and run a command to produce a png image. In the case of 3 dimensions, `noisy` will generate a series pngs over a range of z values.
 
 ### Features
 - Supports Perlin and Worley noise
