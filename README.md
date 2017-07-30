@@ -44,13 +44,13 @@ npm install -g noisy
 
 ### Recipes
 
-##### Generate 2D perlin noise
+Generate 2D perlin noise
 ```noisy -t perlin_fbm -l medium -d 2```
 
-##### Generate 2D worley noise 
+Generate 2D worley noise 
 ```noisy -t worley_pillows -l medium -d 2```
 
-##### Generate 3D worley noise
+Generate 3D worley noise
 ```noisy -t worley_gems -l medium -d 3 -i 32```
 
 ### Argument Reference
