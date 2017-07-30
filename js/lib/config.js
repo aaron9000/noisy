@@ -19,6 +19,7 @@ export const NoiseType = {
     WORLEY_DOTS: "worley_dots",
     WORLEY_GEMS: "worley_gems",
     WORLEY_PILLOWS: "worley_pillows",
+    WORLEY_RIGDED: "worley_ridged_pillows",
     WORLEY_CAUSTICS: "worley_caustics"
 };
 const NoiseTypeType = t.enums(R.invertObj(NoiseType));
@@ -126,7 +127,7 @@ export function parse(args:Array<String>):Object{
                 const {noise_type, detail_level, image_size, dimensions, min_points_per_cell, max_points_per_cell} = c;
                 c.command = `app.o ${noise_type} ${detail_level} ${image_size} ${dimensions} ${min_points_per_cell} ${max_points_per_cell}`;
                 return c;
-            } // parse into command or null
+            }
         )(program);
     } catch (exc) {
         return null;

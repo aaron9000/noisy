@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
                 break;
         }
     }
+
+    // TODO: accept folder / path as argument?
     printf("\n noise_type = %s\n detail_level = %s\n image_size = %i\n dimensions = %i\n min_points_per_cell = %i\n max_points_per_cell = %i\n", noise_type, detail_level, image_size, dimensions, min_points_per_cell, max_points_per_cell);
-    easy_noise(noise_type, detail_level, image_size, dimensions,min_points_per_cell, max_points_per_cell);
+    easy_noise(noise_type, detail_level, image_size, dimensions,min_points_per_cell, max_points_per_cell, "");
 }

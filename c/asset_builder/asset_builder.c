@@ -302,10 +302,11 @@ float noise_value_func(float x, float y, float z, const WriteConfig *config, con
 };
 
 // Public interfaces
-bool easy_noise(const char* noise_type, const char* detail_level, int image_size, int dimensions, int min_points_per_cell, int max_points_per_cell){
+bool easy_noise(const char* noise_type, const char* detail_level, int image_size, int dimensions, int min_points_per_cell, int max_points_per_cell, const char* folder){
 
     // Validation
     NoiseType n = get_noise_type_from_string(noise_type);
+    bool is_perlin = is_noise_type_perlin(n);
     if (n == NoiseType_unknown){
         printf("\neasy_noise: invalid noise_type: %s\n", noise_type);
         return false;
@@ -316,9 +317,7 @@ bool easy_noise(const char* noise_type, const char* detail_level, int image_size
         return false;
     }
     detail_value = pow(2, detail_value + 1);
-    bool is_perlin = is_noise_type_perlin(n);
     detail_value = is_perlin ? detail_value * 2 : detail_value;
-
     if (image_size < MIN_SUPPORTED_IMAGE_SIZE || image_size > MAX_SUPPORTED_IMAGE_SIZE || !is_power_of_two(image_size)){
         printf("\neasy_noise: invalid image_size: %i\n", image_size);
         return false;
@@ -335,6 +334,7 @@ bool easy_noise(const char* noise_type, const char* detail_level, int image_size
     WriteConfig config = DEFAULT_WRITE_CONFIG;
     config.size = image_size;
     config.tile_result = 0;
+    char* normalized_folder = folder != NULL ? folder : "";
 
     NoiseConfig noise_config = DEFAULT_NOISE_CONFIG;
     noise_config.type = n;
@@ -347,7 +347,7 @@ bool easy_noise(const char* noise_type, const char* detail_level, int image_size
     for (int i = 0; i < z_slices; i++){
         config.z = (float)i;
         sds path = sdsnew("");
-        path = sdscatfmt(path, "output/%s_%s_%i_%i.png", noise_type, detail_level, image_size, i);
+        path = sdscatfmt(path, "%s%s_%s_%i_%i.png", normalized_folder, noise_type, detail_level, image_size, i);
         config.path = path;
         int result = write_noise_png(&config, &noise_value_func, &noise_map_func, &noise_config);
         assert(result);
@@ -358,20 +358,21 @@ bool easy_noise(const char* noise_type, const char* detail_level, int image_size
 
 // Test method
 bool write_test_pngs() {
+    char* output_folder = "output/";
 
     // Test all variations of 2D noise @ 128
     for (int i = 0; i < NOISE_TYPES; i++){
         for (int j = 0; j < DETAIL_LEVELS; j++){
-            assert(easy_noise(get_name_for_noise_type(i), get_name_for_detail_level(j), 128, 2, 1, 4));
+            assert(easy_noise(get_name_for_noise_type(i), get_name_for_detail_level(j), 128, 2, 1, 4, output_folder));
         }
     }
 
     // Test some 3D noise @ 32
-    assert(easy_noise("perlin_layer", "low", 32, 3, 1, 4));
+    assert(easy_noise("perlin_layer", "low", 32, 3, 1, 4, output_folder));
 
     // Test a fairly expensive noise variation and profile
     start_timer();
-    assert(easy_noise("worley_pillows", "low", 1024, 2, 1, 4));
+    assert(easy_noise("worley_pillows", "low", 1024, 2, 1, 4, output_folder));
     stop_timer();
 
     return true;

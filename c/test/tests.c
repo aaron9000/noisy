@@ -57,13 +57,14 @@ MU_TEST(test_asset_builder) {
     // build a variety of different noise (review by eye)
     mu_check(write_test_pngs());
 
-    // invalid inputs    
-    mu_check(!easy_noise("foo", "low", 32, 2, 1, 4));
-    mu_check(!easy_noise("perlin_fbm", "foo", 32, 2, 1, 4));
-    mu_check(!easy_noise("perlin_fbm", "low", 32, 4, 1, 4));
-    mu_check(!easy_noise("perlin_fbm", "low", 256, 3, 1, 4));
-    mu_check(!easy_noise("perlin_fbm", "low", 4096, 2, 1, 4));
-    mu_check(!easy_noise("perlin_fbm", "low", 123, 2, 1, 4));
+    // invalid inputs
+    const char* folder = "output/";
+    mu_check(!easy_noise("foo", "low", 32, 2, 1, 4, folder));
+    mu_check(!easy_noise("perlin_fbm", "foo", 32, 2, 1, 4, folder));
+    mu_check(!easy_noise("perlin_fbm", "low", 32, 4, 1, 4, folder));
+    mu_check(!easy_noise("perlin_fbm", "low", 256, 3, 1, 4, folder));
+    mu_check(!easy_noise("perlin_fbm", "low", 4096, 2, 1, 4, folder));
+    mu_check(!easy_noise("perlin_fbm", "low", 123, 2, 1, 4, folder));
 }
 
 
