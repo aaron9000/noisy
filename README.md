@@ -5,11 +5,15 @@ Generate procedural noise from from the command line.
 - Supports Perlin and Worley noise
 - Can generate 2D and 3D noise
 - Seemless tiling in all dimensions
-- Very easy to use
-- Write output to .png
+- Easy to use
 
-## Created with noisy
+## Noise Types
+##### "worley_pillows"
 ![screenshot](https://github.com/aaron9000/noisy/blob/master/media/anim_worley_pillows.gif)
+
+##### "perlin_ridge"
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/anim_worley_pillows.gif)
+
 --
 
 
