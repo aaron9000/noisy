@@ -8,13 +8,11 @@ Generate procedural noise from from the command line.
 - Easy to use
 
 ## Noise Types
-##### "worley_pillows"
+##### worley_pillows
 ![screenshot](https://github.com/aaron9000/noisy/blob/master/media/anim_worley_pillows.gif)
 
-##### "perlin_ridge"
+##### perlin_ridge
 ![screenshot](https://github.com/aaron9000/noisy/blob/master/media/anim_worley_pillows.gif)
-
---
 
 
 ## Installation
@@ -34,10 +32,11 @@ npm install -g noisy
 ##### Generate 3D worley noise
 ```noisy -t worley_gems -l medium -d 3 -i 32```
 
+## Argument Reference
 
 |                                               long |                                              short |                                               type |                                        description |                                            default |
 |----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|
-| `                                    -—noise_type` | `                                              -t` | `                                          string` | `                              see examples above` | `                                      perlin_fbm` |
+| `                                    -—noise_type` | `                                              -t` | `                                          string` | `                         see "Noise Types" above` | `                                      perlin_fbm` |
 | `                                  -—detail_level` | `                                              -l` | `                                          string` | `  amount of detail (low, medium, high, veryhigh)` | `                                          medium` |
 | `                                    -—dimensions` | `                                              -d` | `                                         integer` | `               2 or 3 (3D for image_size <= 128)` | `                                               2` |
 | `                                    -—image_size` | `                                              -i` | `                                         integer` | `     powers of two between 32 - 2048 (inclusive)` | `                                             256` |
