@@ -9,10 +9,28 @@ Generate procedural noise from from the command line.
 
 ## Noise Types
 ##### worley_pillows
-![screenshot](https://github.com/aaron9000/noisy/blob/master/media/anim_worley_pillows.gif)
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/worley_pillows.gif)
+
+##### worley_ridged_pillows
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/worley_ridged_pillows.gif)
+
+##### worley_caustics
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/worley_caustics.gif)
+
+##### worley_gems
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/worley_gems.gif)
+
+##### worley_dots
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/worley_dots.gif)
+
+##### perlin_fbm
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/perlin_fbm.gif)
 
 ##### perlin_ridge
-![screenshot](https://github.com/aaron9000/noisy/blob/master/media/anim_worley_pillows.gif)
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/perlin_ridge.gif)
+
+##### perlin_turbulence
+![screenshot](https://github.com/aaron9000/noisy/blob/master/media/perlin_turbulence.gif)
 
 
 ## Installation
