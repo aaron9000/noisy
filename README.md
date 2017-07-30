@@ -1,10 +1,8 @@
 # noisy
 
-Generate procedural noise from from the command line.
-
+Generate fractal noise from from the command line. Great for rendering smoke, fluids, and terrain. Simply install `noisy` with NPM and run a command to produce a png image. In the case of 3 dimensions, `noisy` will generate a series pngs over a range of z values.
 
 ### Features
-
 - Supports Perlin and Worley noise
 - Can generate 2D and 3D noise
 - Seemless tiling in all dimensions
@@ -44,13 +42,13 @@ npm install -g noisy
 
 ### Recipes
 
-Generate 2D perlin noise
+###### Generate 2D perlin noise
 ```noisy -t perlin_fbm -l medium -d 2```
 
-Generate 2D worley noise 
+###### Generate 2D worley noise 
 ```noisy -t worley_pillows -l medium -d 2```
 
-Generate 3D worley noise
+###### Generate 3D worley noise
 ```noisy -t worley_gems -l medium -d 3 -i 32```
 
 ### Argument Reference
