@@ -1,10 +1,8 @@
 # noisy
 
-Generate procedural noise from from the command line.
-
+Generate Perlin and Worley noise from from the command line. Fractal noise is great for rendering smoke, fluids, and terrain. 
 
 ### Features
-
 - Supports Perlin and Worley noise
 - Can generate 2D and 3D noise
 - Seemless tiling in all dimensions
