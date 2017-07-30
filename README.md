@@ -2,12 +2,15 @@
 
 Generate procedural noise from from the command line.
 
+
+### Features
+
 - Supports Perlin and Worley noise
 - Can generate 2D and 3D noise
 - Seemless tiling in all dimensions
 - Easy to use
 
-## Noise Types
+### Noise Types
 ##### worley_pillows
 ![screenshot](https://github.com/aaron9000/noisy/blob/master/media/worley_pillows.gif)
 
@@ -33,13 +36,13 @@ Generate procedural noise from from the command line.
 ![screenshot](https://github.com/aaron9000/noisy/blob/master/media/perlin_turbulence.gif)
 
 
-## Installation
+### Installation
 ```
 npm install -g noisy
 ```
 
 
-## Recipes
+### Recipes
 
 ##### Generate 2D perlin noise
 ```noisy -t perlin_fbm -l medium -d 2```
@@ -50,7 +53,7 @@ npm install -g noisy
 ##### Generate 3D worley noise
 ```noisy -t worley_gems -l medium -d 3 -i 32```
 
-## Argument Reference
+### Argument Reference
 
 |                                               long |                                              short |                                               type |                                        description |                                            default |
 |----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|
