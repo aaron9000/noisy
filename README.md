@@ -49,7 +49,7 @@ npm install -g noisy
 ```noisy -t worley_pillows -l medium -d 2```
 
 ###### Generate 3D worley noise
-```noisy -t worley_gems -l medium -d 3 -i 32```
+```noisy -t worley_gems -l medium -d 3 -s 32```
 
 ### Argument Reference
 
@@ -58,7 +58,7 @@ npm install -g noisy
 | `                                    -—noise_type` | `                                              -t` | `                                          string` | `                         see "Noise Types" above` | `                                      perlin_fbm` |
 | `                                  -—detail_level` | `                                              -l` | `                                          string` | `  amount of detail (low, medium, high, veryhigh)` | `                                          medium` |
 | `                                    -—dimensions` | `                                              -d` | `                                         integer` | `               2 or 3 (3D for image_size <= 128)` | `                                               2` |
-| `                                    -—image_size` | `                                              -i` | `                                         integer` | `     powers of two between 32 - 2048 (inclusive)` | `                                             256` |
+| `                                    -—image_size` | `                                              -s` | `                                         integer` | `     powers of two between 32 - 2048 (inclusive)` | `                                             256` |
 | `                           -—min_points_per_cell` | `                                              -n` | `                                         integer` | `                      0 - 10 (worley noise only)` | `                                               1` |
 | `                           -—max_points_per_cell` | `                                              -x` | `                                         integer` | `                      0 - 10 (worley noise only)` | `                                               4` |
 

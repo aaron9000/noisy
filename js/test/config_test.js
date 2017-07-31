@@ -12,7 +12,7 @@ describe("config", () => {
             '-n', '2',
             '-l', 'low',
             '-d', '3',
-            '-i', '32'
+            '-s', '32'
         ]);
         expect(config).to.deep.equal({
             noise_type: 'perlin_fbm',
@@ -73,7 +73,7 @@ describe("config", () => {
         expect(parse(n('-x', 23))).to.equal(null);
         expect(parse(n('-n', 33))).to.equal(null);
         expect(parse(n('-d', 32))).to.equal(null);
-        expect(parse(n('-i', 41))).to.equal(null);
+        expect(parse(n('-s', 41))).to.equal(null);
     });
 
 });

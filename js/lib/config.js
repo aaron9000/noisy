@@ -111,7 +111,7 @@ export function parse(args:Array<String>):Object{
             .option('-t, --noise_type   <noise_type>', `${stringEnumeration(NoiseType)}`, WILDCARD_REGEX, DefaultConfig.noise_type)
             .option('-l, --detail_level [detail_level]', `${stringEnumeration(DetailLevel)}`, WILDCARD_REGEX, DefaultConfig.detail_level)
             .option('-d, --dimensions   [n]', `2 - 3     *3D not supported for images > ${MAX_IMAGE_SIZE_FOR_3D})`, parseIntOrIdentity)
-            .option('-i, --image_size   [n]', `${MIN_SUPPORTED_IMAGE_SIZE} - ${MAX_SUPPORTED_IMAGE_SIZE} *powers of two only`, parseIntOrIdentity)
+            .option('-s, --image_size   [n]', `${MIN_SUPPORTED_IMAGE_SIZE} - ${MAX_SUPPORTED_IMAGE_SIZE} *powers of two only`, parseIntOrIdentity)
             .option('-n, --min_points_per_cell   [n]', `${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}     *worley only`, parseIntOrIdentity)
             .option('-x, --max_points_per_cell   [n]', `${MIN_POINTS_PER_CELL} - ${MAX_POINTS_PER_CELL}     *worley only`, parseIntOrIdentity)
             .parse(args);
