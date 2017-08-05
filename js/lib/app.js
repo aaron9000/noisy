@@ -6,7 +6,7 @@ const exec = require('child_process').exec;
 
 export function handleConfig(config:Object):Promise {
     if (!configIsValid(config)) return Promise.reject(new Error(''));
-    const cmd = './bin/' + config.command;
+    const cmd = '../bin/' + config.command;
     return new Promise((resolve, reject) => {
         exec(cmd, (error, stdout, stderr) => {
             if (error) {

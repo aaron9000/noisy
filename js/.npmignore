@@ -6,3 +6,4 @@ README.md
 lib
 package.sh
 webpack.*
+.DS_Store
