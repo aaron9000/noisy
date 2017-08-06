@@ -1,6 +1,6 @@
 {
   "name": "noisy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "noisy",
   "main": "es5/index.js",
   "scripts": {
@@ -16,7 +16,12 @@
     "noise",
     "graphics",
     "perlin",
-    "worley"
+    "worley",
+    "fractal",
+    "cli",
+    "command-line",
+    "fractal",
+    "noise-function"
   ],
   "author": "Aaron Geisler <aaron.geisler.sloth@gmail.com>",
   "license": "MIT",
