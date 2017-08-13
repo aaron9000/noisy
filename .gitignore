@@ -10,3 +10,4 @@ npm-debug.log
 *.js.map
 js/dist
 js/es5
+sandbox/
