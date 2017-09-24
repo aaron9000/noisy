@@ -65,6 +65,9 @@ MU_TEST(test_asset_builder) {
     mu_check(!easy_noise("perlin_fbm", "low", 256, 3, 1, 4, folder));
     mu_check(!easy_noise("perlin_fbm", "low", 4096, 2, 1, 4, folder));
     mu_check(!easy_noise("perlin_fbm", "low", 123, 2, 1, 4, folder));
+
+    // build sample noise
+
 }
 
 

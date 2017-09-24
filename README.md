@@ -5,7 +5,7 @@ Generate fractal noise from from the command line. Great for rendering smoke, fl
 ### Features
 - Supports Perlin and Worley noise
 - Can generate 2D and 3D noise
-- Seemless tiling in all dimensions
+- Seamless tiling in all dimensions
 - Easy to use
 
 ### Noise Types
@@ -45,7 +45,7 @@ npm install -g noisy
 ###### Generate 2D perlin noise
 ```noisy -t perlin_fbm -l medium -d 2```
 
-###### Generate 2D worley noise 
+###### Generate 2D worley noise
 ```noisy -t worley_pillows -l medium -d 2```
 
 ###### Generate 3D worley noise
@@ -61,5 +61,3 @@ npm install -g noisy
 | `                                    -—image_size` | `                                              -s` | `                                         integer` | `     powers of two between 32 - 2048 (inclusive)` | `                                             256` |
 | `                           -—min_points_per_cell` | `                                              -n` | `                                         integer` | `                      0 - 10 (worley noise only)` | `                                               1` |
 | `                           -—max_points_per_cell` | `                                              -x` | `                                         integer` | `                      0 - 10 (worley noise only)` | `                                               4` |
-
-
